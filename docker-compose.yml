@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+  app:
+    build: .
+    entrypoint: sh -c "npm install && npm run start:dev"
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/home/node/app
+    depends_on:
+      - redis
+      - db
+
+  db:
+    image: postgres:10
+    environment:
+      POSTGRES_PASSWORD: dbpw
+      POSTGRES_USER: dbusr
+      POSTGRES_DB: cadastro
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql:z
+
+  redis:
+    image: redis:6.2.6-alpine3.14
+    ports:
+      - "6379:6379"
+volumes:
+  pgdata:
