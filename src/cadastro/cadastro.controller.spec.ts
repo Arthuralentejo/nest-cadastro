@@ -12,7 +12,7 @@ describe('CadastroController', () => {
     controller = module.get<CadastroController>(CadastroController);
   });
 
-  it"should be defined"', () => {
+  it('should be defined', () => {
     expect(controller).toBeDefined();
   });
 });
