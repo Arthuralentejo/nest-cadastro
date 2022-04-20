@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CadastroController } from './cadastro.controller';
+import { CadastroService } from './cadastro.service';
 
 describe('CadastroController', () => {
   let controller: CadastroController;
@@ -7,6 +8,7 @@ describe('CadastroController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [CadastroController],
+      providers: [CadastroService],
     }).compile();
 
     controller = module.get<CadastroController>(CadastroController);
@@ -14,5 +16,8 @@ describe('CadastroController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+  it('Should return users', () => {
+    expect(controller.findAll()).toBe(typeof Array);
   });
 });
