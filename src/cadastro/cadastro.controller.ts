@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { CadastroService } from './cadastro.service';
 
 @Controller('cadastro')
@@ -12,11 +12,16 @@ export class CadastroController {
 
   @Get(':id')
   findById(@Param() params) {
-    return this.cadastroService.findById(Number(params.id));
+    return this.cadastroService.findById(+params.id);
+  }
+
+  @Post()
+  create(@Body() body: any) {
+    return this.cadastroService.create(body);
   }
 
   @Patch(':id')
   update(@Param() params, @Body() data) {
-    return this.cadastroService.update(Number(params.id), data);
+    return this.cadastroService.update(+params.id, data);
   }
 }

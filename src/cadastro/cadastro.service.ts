@@ -1,5 +1,13 @@
 import { Injectable } from '@nestjs/common';
 
+interface ICadastro {
+  id: number;
+  nome: string;
+  telefone: number;
+  CPF: number;
+  CEP: number;
+}
+
 @Injectable()
 export class CadastroService {
   private cadastros = [
@@ -28,6 +36,11 @@ export class CadastroService {
 
   update(id: number, data) {
     const target = this.cadastros.find((cadastro) => cadastro.id === id);
+
     return 'Teste' + id;
+  }
+
+  create(cadastro: ICadastro) {
+    return this.cadastros.push(cadastro);
   }
 }
