@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -21,7 +22,9 @@ export class CadastroController {
 
   @Get(':id')
   findById(@Param('id') id) {
-    return this.cadastroService.findById(+id);
+    return this.cadastroService.findById(+id).catch((e) => {
+      throw new NotFoundException(e.message);
+    });
   }
 
   @Post()

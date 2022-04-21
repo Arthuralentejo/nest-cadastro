@@ -23,8 +23,10 @@ export class CadastroService {
     return this.cadastros;
   }
 
-  findById(id: number) {
-    return this.cadastros.find((cadastro) => cadastro.id === id);
+  async findById(id: number) {
+    const cadastro = this.cadastros.find((cadastro) => cadastro.id === id);
+    if (!cadastro) throw Error(`Cadastro com o ID ${id} não encontrado`);
+    return cadastro;
   }
 
   update(id: number, cadastro: ICadastro) {
