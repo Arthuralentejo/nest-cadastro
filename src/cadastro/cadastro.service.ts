@@ -1,16 +1,9 @@
 import { Injectable } from '@nestjs/common';
-
-interface ICadastro {
-  id: number;
-  nome: string;
-  telefone: number;
-  CPF: number;
-  CEP: number;
-}
+import { ICadastro } from './ICadastro';
 
 @Injectable()
 export class CadastroService {
-  private cadastros = [
+  private cadastros: ICadastro[] = [
     {
       id: 1,
       nome: 'Claudio',
@@ -34,13 +27,19 @@ export class CadastroService {
     return this.cadastros.find((cadastro) => cadastro.id === id);
   }
 
-  update(id: number, data) {
-    const target = this.cadastros.find((cadastro) => cadastro.id === id);
-
-    return 'Teste' + id;
+  update(id: number, cadastro: ICadastro) {
+    const index = this.cadastros.findIndex((cadastro) => cadastro.id === id);
+    this.cadastros[index] = cadastro;
+    return cadastro;
   }
 
   create(cadastro: ICadastro) {
     return this.cadastros.push(cadastro);
+  }
+
+  delete(id: number) {
+    const index = this.cadastros.findIndex((cadastro) => cadastro.id === id);
+    delete this.cadastros[index];
+    return true;
   }
 }
