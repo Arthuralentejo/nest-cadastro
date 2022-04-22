@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { CadastroService } from './cadastro.service';
 import { ICadastro } from './ICadastro';
+import { CadastroDto } from './CadastroDto';
 
 @Controller('cadastro')
 export class CadastroController {
@@ -28,7 +29,7 @@ export class CadastroController {
   }
 
   @Post()
-  create(@Body() cadastro: ICadastro) {
+  create(@Body() cadastro: CadastroDto) {
     return this.cadastroService.create(cadastro);
   }
 

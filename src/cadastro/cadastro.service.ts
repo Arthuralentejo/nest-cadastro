@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ICadastro } from './ICadastro';
+import { CadastroDto } from './CadastroDto';
 
 @Injectable()
 export class CadastroService {
@@ -35,8 +36,13 @@ export class CadastroService {
     return cadastro;
   }
 
-  create(cadastro: ICadastro) {
-    return this.cadastros.push(cadastro);
+  create(cadastroDto: CadastroDto) {
+    const cad: ICadastro = {
+      id: this.cadastros.length,
+      ...cadastroDto,
+    };
+    this.cadastros.push(cad);
+    return cad;
   }
 
   delete(id: number) {
