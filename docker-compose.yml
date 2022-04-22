@@ -1,31 +1,45 @@
-version: '3.1'
+version: '3.7'
 
 services:
   app:
-    build: .
-    entrypoint: sh -c "npm install && npm run start:dev"
+    build:
+      context: .
+      target: development
+    command: "npm run start:dev"
     ports:
-      - "3000:3000"
+      - ${SERVER_PORT}:${SERVER_PORT}
     volumes:
-      - .:/home/node/app
+      - .:/usr/src/app
+    env_file:
+      - .env
     depends_on:
       - redis
       - db
+    networks:
+      - appnet
 
   db:
-    image: postgres:10
+    image: postgres
     environment:
-      POSTGRES_PASSWORD: dbpw
-      POSTGRES_USER: dbusr
-      POSTGRES_DB: cadastro
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      PG_DATA: /var/lib/postgresql/data
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql:z
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - appnet
 
   redis:
     image: redis:6.2.6-alpine3.14
     ports:
       - "6379:6379"
+    networks:
+      - appnet
+
 volumes:
   pgdata:
+networks:
+  appnet:
