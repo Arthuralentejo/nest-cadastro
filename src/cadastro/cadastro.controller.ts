@@ -5,6 +5,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -21,7 +22,7 @@ export class CadastroController {
   }
 
   @Get(':id')
-  findById(@Param('id') id) {
+  findById(@Param('id', ParseIntPipe) id) {
     return this.cadastroService.findById(+id).catch((e) => {
       throw new NotFoundException(e.message);
     });
@@ -33,14 +34,14 @@ export class CadastroController {
   }
 
   @Patch(':id')
-  update(@Param('id') id, @Body() cadastroDto: CadastroDto) {
+  update(@Param('id', ParseIntPipe) id, @Body() cadastroDto: CadastroDto) {
     return this.cadastroService.update(+id, cadastroDto).catch((e) => {
       throw new NotFoundException(e.message);
     });
   }
 
   @Delete(':id')
-  delete(@Param('id') id) {
+  delete(@Param('id', ParseIntPipe) id) {
     return this.cadastroService.delete(+id).catch((e) => {
       throw new NotFoundException(e.message);
     });
