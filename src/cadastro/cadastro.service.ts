@@ -21,17 +21,22 @@ export class CadastroService {
     },
   ];
   findAll() {
-    return this.cadastros;
+    return this.cadastros.filter(Boolean);
   }
 
   async findById(id: number) {
-    const cadastro = this.cadastros.find((cadastro) => cadastro.id === id);
-    if (!cadastro) throw Error(`Cadastro com o ID ${id} não encontrado`);
+    const cadastro = this.cadastros.find((cadastro) => cadastro?.id === id);
+    if (!cadastro) throw Error(`Cadastro com o ID '${id}' não encontrado`);
     return cadastro;
   }
 
-  update(id: number, cadastro: ICadastro) {
-    const index = this.cadastros.findIndex((cadastro) => cadastro.id === id);
+  async update(id: number, cadastroDto: CadastroDto) {
+    const index = this.cadastros.findIndex((cadastro) => cadastro?.id === id);
+    if (index < 0) throw Error(`Cadastro com o ID '${id}' não encontrado`);
+    const cadastro: ICadastro = {
+      id,
+      ...cadastroDto,
+    };
     this.cadastros[index] = cadastro;
     return cadastro;
   }
@@ -45,8 +50,9 @@ export class CadastroService {
     return cad;
   }
 
-  delete(id: number) {
-    const index = this.cadastros.findIndex((cadastro) => cadastro.id === id);
+  async delete(id: number) {
+    const index = this.cadastros.findIndex((cadastro) => cadastro?.id === id);
+    if (index < 0) throw Error(`Cadastro com o ID '${id}' não encontrado`);
     delete this.cadastros[index];
     return true;
   }

@@ -9,7 +9,6 @@ import {
   Post,
 } from '@nestjs/common';
 import { CadastroService } from './cadastro.service';
-import { ICadastro } from './ICadastro';
 import { CadastroDto } from './CadastroDto';
 
 @Controller('cadastro')
@@ -29,17 +28,21 @@ export class CadastroController {
   }
 
   @Post()
-  create(@Body() cadastro: CadastroDto) {
-    return this.cadastroService.create(cadastro);
+  create(@Body() cadastroDto: CadastroDto) {
+    return this.cadastroService.create(cadastroDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id, @Body() cadastro: ICadastro) {
-    return this.cadastroService.update(+id, cadastro);
+  update(@Param('id') id, @Body() cadastroDto: CadastroDto) {
+    return this.cadastroService.update(+id, cadastroDto).catch((e) => {
+      throw new NotFoundException(e.message);
+    });
   }
 
   @Delete(':id')
   delete(@Param('id') id) {
-    return this.cadastroService.delete(+id);
+    return this.cadastroService.delete(+id).catch((e) => {
+      throw new NotFoundException(e.message);
+    });
   }
 }
